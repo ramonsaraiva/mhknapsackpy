@@ -1,24 +1,23 @@
 import random
 
 class MHKnapsack(object):
-	si = []
+	w = []
+	wsum = 0
 	q = 0
 	r = 0
 	b = []
 
 	def generate_superinc(self, size, bound):
-		del self.si[:]
-		acsum = 0
+		del self.w[:]
+		self.wsum = 0
 
 		for i in range(size):
-			r = random.randint(acsum, acsum+bound)
-			self.si.append(r)
-			acsum += r
-
-		return self.si
-
-	def
+			r = random.randint(self.wsum, self.wsum+bound)
+			self.w.append(r)
+			self.wsum += r
 
 ks = MHKnapsack()
-print ks.generate_superinc(15, 10)
+ks.generate_superinc(15, 10)
+print ks.w
+print ks.wsum
 
