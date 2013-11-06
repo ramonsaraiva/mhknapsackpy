@@ -48,40 +48,26 @@ class MHKnapsack(object):
 		while (cryptogram > 0):
 			nearest = 0
 			for i in pk:
-				print 'i: ' + str(i)
 				if i <= cryptogram and i > nearest:
 					nearest = i
-					print 'nearest: ' + str(nearest)
-			idx = self.pk.index(nearest)
-			pk.remove(nearest)
+			if nearest == 0:
+				break
+
 			d = cryptogram - nearest
-			print 'd: ' + str(d)
 			cryptogram = cryptogram - nearest
-			print 'cryptogram now: ' + str(cryptogram)
-			m.append(idx)
-		return m
 
 ks = MHKnapsack()
 print 'generating w...'
-ks.generate_superinc(4, 10)
-print 'w: '
-print ks.w
-print 'wsum: ' + str(ks.wsum)
+ks.generate_superinc(9999, 10)
 print 'generating q & r...'
 ks.generate_q_and_r()
-print 'q: ' + str(ks.q)
-print 'r: ' + str(ks.r)
 print 'generating public key...'
 ks.generate_public_key()
-print 'public key:'
-print ks.pk
 message = ks.generate_message()
-print 'message: '
-print message
+print 'generating cryptogram...'
 cryptogram = ks.generate_cryptogram(message)
-print 'cryptogram: '
-print cryptogram
 print 'trying to decrypt..'
 dec = ks.try_decrypt(cryptogram)
+print 'decrypted.'
 print 'dec: '
 print dec
