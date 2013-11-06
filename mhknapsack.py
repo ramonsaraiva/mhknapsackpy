@@ -45,6 +45,8 @@ class MHKnapsack(object):
 	def try_decrypt(self, cryptogram):
 		m = []
 		pk = self.pk
+		print 'decomposing..'
+		count = 0
 		while (cryptogram > 0):
 			nearest = 0
 			for i in pk:
@@ -55,10 +57,13 @@ class MHKnapsack(object):
 
 			d = cryptogram - nearest
 			cryptogram = cryptogram - nearest
+			count += 1
+			if count % 100 == 0:
+				print 'decomposed ' + str(count) + ' times..'
 
 ks = MHKnapsack()
 print 'generating w...'
-ks.generate_superinc(9999, 10)
+ks.generate_superinc(10000, 10)
 print 'generating q & r...'
 ks.generate_q_and_r()
 print 'generating public key...'
@@ -69,5 +74,3 @@ cryptogram = ks.generate_cryptogram(message)
 print 'trying to decrypt..'
 dec = ks.try_decrypt(cryptogram)
 print 'decrypted.'
-print 'dec: '
-print dec
