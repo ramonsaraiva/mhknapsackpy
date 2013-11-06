@@ -9,7 +9,7 @@ class MHKnapsack(object):
 	pk = []
 	b = []
 
-	def generate_superinc(self, size, bound):
+	def gen_superinc(self, size, bound):
 		del self.w[:]
 		self.wsum = 0
 
@@ -18,7 +18,7 @@ class MHKnapsack(object):
 			self.w.append(r)
 			self.wsum += r
 
-	def generate_q_and_r(self):
+	def gen_q_and_r(self):
 		#q > wsum & r ~ [1, q) and coprime to q -> gcd(r, q) == 1
 		self.q = random.randint(self.wsum, self.wsum + 99999)
 
@@ -26,23 +26,23 @@ class MHKnapsack(object):
 		while gcd(self.r, self.q) != 1:
 			self.r = random.randint(1, self.q)
 
-	def generate_public_key(self):
+	def gen_public_key(self):
 		for wi in self.w:
 			self.pk.append((self.r * wi) % self.q)
 
-	def generate_message(self):
+	def gen_message(self):
 		m = []
 		for i in range(len(self.w)):
 			m.append(random.randint(0, 1))
 		return m
 
-	def generate_cryptogram(self, message):
+	def gen_cryptogram(self, message):
 		c = 0
 		for i in range(len(message)):
 			c += message[i] * self.pk[i]
 		return c
 
-	def try_decrypt(self, cryptogram):
+	def bruteforce(self, cryptogram):
 		m = []
 		pk = self.pk
 		print 'decomposing..'
@@ -63,14 +63,14 @@ class MHKnapsack(object):
 
 ks = MHKnapsack()
 print 'generating w...'
-ks.generate_superinc(10000, 10)
+ks.gen_superinc(10000, 10)
 print 'generating q & r...'
-ks.generate_q_and_r()
+ks.gen_q_and_r()
 print 'generating public key...'
-ks.generate_public_key()
-message = ks.generate_message()
+ks.gen_public_key()
+message = ks.gen_message()
 print 'generating cryptogram...'
-cryptogram = ks.generate_cryptogram(message)
+cryptogram = ks.gen_cryptogram(message)
 print 'trying to decrypt..'
-dec = ks.try_decrypt(cryptogram)
+dec = ks.bruteforce(cryptogram)
 print 'decrypted.'
